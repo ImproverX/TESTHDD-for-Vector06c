@@ -338,7 +338,17 @@ L_BTS0:	CALL    L_0A56	; вывод cтроки до "$" с добавление
 	.db ",$"
 	CALL    L_0A56	; вывод cтроки до "$" с добавлением перевода строки в начале
 	.db "дискет$"
+	LHLD	D_DSKT
+	XCHG
 	LHLD    BufHDD0+84h	; число дискет из HDD
+	MOV  A, H
+	SUB  D
+	JZ	$+6
+	STA	D_RERR	; изменения есть -- заносим "неноль"
+	MOV  A, L
+	SUB  E
+	JZ	$+6
+	STA	D_RERR	; изменения есть -- заносим "неноль"
 	CALL    L_0B3F	; вывод числа из HL
 	LDA	D_RERR
 	ORA  A
