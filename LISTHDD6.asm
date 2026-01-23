@@ -95,14 +95,14 @@ L_DS01:	MOV  A, M
 	CZ	PRNLF	; новая строка
 	POP  D
 	CALL	PRINTD	; выводим имя файла
-	MVI  C, ' '	; пробел
-	CALL	PRINTC
+	MVI  A, ' '	; пробел
+	CALL	PRINTA
 	LXI  D, SEPAR	; разделитель
 	MOV  A, M
 	ORA  A
 	JZ	L_DS03
-	MVI  C, 'u'	; юзер
-	CALL	PRINTC
+	MVI  A, 'u'	; юзер
+	CALL	PRINTA
 	CALL	L_0245	; вывод полубайта в HEX
 	LXI  D, SEPAU	; разделитель короткий
 L_DS03:	MOV  A, B
@@ -152,12 +152,12 @@ L_0245:	ORI	0F0h	; вывод полубайта в шестнадцатирич
 	DAA
 	CPI	060h
 	SBI	01Fh
-	MOV  C, A
-PRINTC:	PUSH PSW	; вывод на экран
+;	MOV  C, A
+PRINTA:	PUSH PSW	; вывод на экран
 	PUSH B
 	PUSH H
 	PUSH D
-	MOV  E, C
+	MOV  E, A
 	MVI  C, 002h	; вывод на экран (1 символ)
 	CALL    00005h
 	POP  D
